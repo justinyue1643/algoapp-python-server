@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, Response
+from flask import Flask, request, jsonify, Response, make_response
 
 app = Flask(__name__)
 
@@ -19,18 +19,27 @@ def proto() -> str:
 
 
 @app.route("/run", methods=['GET'])
-def run_python_code() -> None:
+def run_python_code() -> Response:
     setup_code = request.args.get("setup_code")
     runnable_code = request.args.get("runnable_code")
 
-    exec("exec(" + repr(setup_code).replace("\\", "0").replace("00", "\\") + ")")
-    output = eval(runnable_code)
+    try:
+        exec("exec(" + repr(setup_code).replace("\\", "0").replace("00", "\\") + ")")
+        output = eval(runnable_code)
+    except Exception as e:
+        response = make_response(
+            jsonify({"error": str(e)}),
+            400
+        )
 
-    response = {
-        "output": output
-    }
+        return response
+    else:
+        response = make_response(
+            jsonify({"output": output}),
+            200
+        )
 
-    return jsonify(response)
+        return response
 
 
 if __name__ == "__main__":
