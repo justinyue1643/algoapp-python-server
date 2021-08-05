@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify, Response, make_response
 app = Flask(__name__)
 
 
-@app.route("/", methods=['GET'])
+@app.route("/", methods=["GET"])
 def hello_world():
     return "hello world"
 
@@ -18,7 +18,7 @@ def proto() -> str:
     return output
 
 
-@app.route("/run", methods=['GET'])
+@app.route("/run", methods=["GET"])
 def run_python_code() -> Response:
     setup_code = request.args.get("setup_code")
     runnable_code = request.args.get("runnable_code")
@@ -43,4 +43,4 @@ def run_python_code() -> Response:
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
