@@ -29,6 +29,7 @@ def run_python_code() -> Response:
         exec("exec(" + repr(setup_code).replace("\\", "0").replace("00", "\\") + ")")
         output = eval(runnable_code)
     except Exception as e:
+        print(e)
         response = make_response(
             jsonify({"error": str(e)}),
             400
