@@ -22,6 +22,8 @@ def proto() -> str:
 def run_python_code() -> Response:
     setup_code = request.args.get("setup_code")
     runnable_code = request.args.get("runnable_code")
+    print(f"setup_code: \n{setup_code}\n\n")
+    print(f"runnable_code: \n{runnable_code}\n\n")
 
     try:
         exec("exec(" + repr(setup_code).replace("\\", "0").replace("00", "\\") + ")")
